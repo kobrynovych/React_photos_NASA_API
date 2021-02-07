@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 // import { nasaFetch } from './api/api';
  import { useDispatch, useSelector } from 'react-redux';
-import { MANIFEST_FETCH, ROVER_FETCH, SET_MANIFEST } from './redux/actionTypes/index';
-import RoversSelect from './components/RoversSelect';
+import { MANIFEST_FETCH, ROVER_FETCH, SET_MANIFEST, PHOTO_FETCH } from './redux/actionTypes/index';
+import Rovers from './components/Rovers';
 import ManifestTable from './components/ManifestTable';
-import SolSelect from './components/SolSelect';
+import Sols from './components/Sols';
+import Cameras from './components/Cameras';
 
 function App() {
-  const [sol_id, setSol_id] = useState(null);
+  const [sol, setSol] = useState(null);
+  const [camera, setCamera] = useState(null);
   const dispatch = useDispatch();
-  // debugger
 
   const rovers = useSelector(state => state.rover.rovers);
 
@@ -23,28 +24,37 @@ function App() {
   const launch_date = useSelector(state => state.manifest.launch_date);
   const photos = useSelector(state => state.manifest.photos);
 
-
-  // debugger
-  console.log(sol_id);
-
-
   const manifestFetch = (roverName) => {
     // debugger
     dispatch({type: MANIFEST_FETCH, roverName})
   } 
 
   useEffect(() => {
-    // debugger
-    // dispatch({type: ROVER_FETCH})
-    // nasaFetch();
-  }, []);
-
-  // const search_sol = photos.map((el, index) => ({id: index, sol: `Sol: ${el.sol} (${el.earth_date})`}));
-  const search_sol = React.useMemo(() => {
     debugger
-    return photos.map((el, index) => ({id: index, sol: `Sol: ${el.sol} (${el.earth_date})`}))
+    if (name && photos && camera) {
+      // const sol = photos[sol_id].sol;
+      dispatch({type: PHOTO_FETCH}, name, sol, camera);
+    }
+  }, [camera]);
+
+  const rovers_list = [{rover: 'Curiosity'}, {rover: 'Opportunity'}, {rover: 'Spirit'}];
+
+  const sols_list = React.useMemo(() => {
+    // debugger
+    // return photos.map((el, index) => ({id: index, sol: `Sol: ${el.sol} (${el.earth_date})`}))
+    return photos.map((el, index) => ({sol: el.sol, text: `Sol: ${el.sol} (${el.earth_date})`}))
   },[photos]);
 
+
+  const cameras_list = React.useMemo(() => {
+    debugger
+    // return sol && photos[sol].cameras.map(el => ({camera: `${el.toLowerCase()}`}))
+    // return sol && photos.filter(el => el.sol === sol && el.cameras.map(el2 => ({camera: `${el2.toLowerCase()}`}))); 
+    // 
+    // remuve 
+    return sol && photos.filter(el => el.sol === sol && el.cameras.map(el2 => ({camera: `${el2.toLowerCase()}`}))); 
+    // [sol].cameras.map(el => ({camera: `${el.toLowerCase()}`}))
+  },[sol]);
 
   return (
     <>
@@ -53,7 +63,7 @@ function App() {
       <footer></footer>
 
 
-      <RoversSelect manifestFetch={manifestFetch}/>
+      <Rovers rovers_list={rovers_list} manifestFetch={manifestFetch} name={name} />
 
       {name.length > 0 && ( <ManifestTable name={name} 
                                       launch_date={launch_date} 
@@ -62,11 +72,14 @@ function App() {
                                       max_sol={max_sol}
                                       status={status}
                                       total_photos={total_photos}
-                                  />)}
+                                  /> )}
 
-      <SolSelect search_sol={search_sol} setSol_id={setSol_id}/>
+      {name.length > 0 && ( <Sols sols_list={sols_list} setSol={setSol}/> )}
+      
+      {sol !== null && ( <Cameras cameras_list={cameras_list} setCamera={setCamera}/> )}
 
 
+      
 
       <ul>{rovers.length > 0 && rovers.map((el, index) => (<React.Fragment key={el.id}>
         {index < 10 && <li>
