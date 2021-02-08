@@ -1,10 +1,9 @@
 import React from 'react'
-import { ROVER_FETCH, SET_MANIFEST, SET_ROVER } from '../actionTypes/index';
+import { SET_MANIFEST, SET_IS_LOADING, SET_ERROR_MESS } from '../actionTypes/index';
 
 const initialState = {
-    // pending: false,
-    // photo_manifest: {},
-    
+    pending: false,
+    error: '',
     name: '',
     landing_date: '',
     max_date: '',
@@ -13,31 +12,19 @@ const initialState = {
     total_photos: 0,
     launch_date: '',
     photos: [],
-
-
-
-    // error: ''
 };
 
 export default function manifestReducer(state = initialState, action) {
     switch (action.type) {
-        // case FETCH_ROVERS_PENDING:
-            // return {
-            //     ...state,
-            //     pending: true,
-            //     error: '',
-            //     rovers: []
-            // };
-        // case ROVER_FETCH:
-        //     return {
-        //         ...state,
-        //         pending: false,
-        //         rovers: action.payload
-        //     };
+        case SET_IS_LOADING:
+            return {
+                ...state,
+                pending: !state.pending,
+            };
         case SET_MANIFEST:
             return {
                 ...state,
-                // pending: false,
+                error: '',
                 name: action.payload.name,
                 landing_date: action.payload.landing_date,
                 max_date: action.payload.max_date,
@@ -47,13 +34,11 @@ export default function manifestReducer(state = initialState, action) {
                 launch_date: action.payload.launch_date,
                 photos: [...action.payload.photos],
             };
-        // case FETCH_ROVERS_ERROR:
-        //     return {
-        //         ...state,
-        //         pending: false,
-        //         error: action.payload,
-        //         rovers: []
-        //     };
+        case SET_ERROR_MESS:
+            return {
+                ...state,
+                error: action.payload,
+            };
         default:
             return state;
     }

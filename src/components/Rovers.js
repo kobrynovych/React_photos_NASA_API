@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from './Select';
 
-export default function Rovers({rovers_list, manifestFetch, name}) {
+const Rovers = React.memo(({rovers_list, manifestFetch, name}) => {
   const [value, setValue] = React.useState(null);
 
   const defaultProps = {
@@ -20,12 +20,13 @@ export default function Rovers({rovers_list, manifestFetch, name}) {
   } 
 
   return (
-        <Select defaultProps={defaultProps} 
-                value={value} 
-                handleChange={handleChange}
-                labell="Mars Rover"
-                id='Mars_rover'
-                text_mess='Please select NASA Mars rover'
-          />
+      <Select defaultProps={defaultProps} 
+              value={value} 
+              handleChange={handleChange}
+              labell="Mars Rover"
+              id='Mars_rover'
+              text_mess='Please select NASA Mars rover'
+        />
   );
-}
+});
+export default Rovers;

@@ -1,11 +1,11 @@
 import React from 'react'
 import { combineReducers } from 'redux';
 import manifestReducer from './manifestReducer';
-import roverReducer from './roverReducer';
+import photosReducer from './photosReducer';
 
 const rootReducer = combineReducers({
-    rover: roverReducer,
     manifest: manifestReducer,
+    photos: photosReducer,
 });
 
 export default rootReducer;
