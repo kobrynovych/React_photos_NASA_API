@@ -12,7 +12,7 @@ Along with querying by date, results can also be filtered by the camera with whi
 
 Each camera has a unique function and perspective.
 
-https://igorkob.github.io/React_photos_NASA_API
+https://kobrynovych.github.io/React_photos_NASA_API
 
 ## Table of contents
 * [Instructions](#Instructions)
@@ -24,7 +24,7 @@ https://igorkob.github.io/React_photos_NASA_API
 
 First clone this repository.
 ```bash
-$ git clone https://github.com/IgorKob/React_photos_NASA_API.git
+$ git clone https://github.com/kobrynovych/React_photos_NASA_API.git
 ```
 
 Install dependencies. Make sure you already have [`nodejs`](https://nodejs.org/en/) & [`npm`](https://www.npmjs.com/) installed in your system.
